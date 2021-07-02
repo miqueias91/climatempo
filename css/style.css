@@ -1,0 +1,88 @@
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+}
+
+.navbar-toggler:focus {
+    text-decoration: none;
+    outline: 0;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #ced4da!important;
+    outline: 0;
+    box-shadow: none;
+}
+
+.bg-dark {
+    background-color: #0080cd!important;
+}
+
+.logo_header {
+	margin: 0 auto;
+}
+
+.search_button {
+	cursor: pointer;
+}
+
+.search_button {
+    background-color: transparent;
+    border: none;
+    border-top: 1px solid #ced4da;
+    border-bottom: 1px solid #ced4da;
+    border-right: 1px solid #ced4da;
+}
+
+.search {
+	border: none;
+    border-top: 1px solid #ced4da;
+    border-bottom: 1px solid #ced4da;
+    border-left: 1px solid #ced4da;
+}
+
+.card-title {
+    margin-bottom: 0.7rem;
+}
+
+h5 {
+    font-size: 1.1rem;
+}
+
+h6 {
+    font-weight: normal;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+.card-body {
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.max span {
+	color: #0277BD;
+}
+
+.min span {
+	color: #C62828;
+}
+
+.card_temperatura, .card_cordicoes {
+	font-size: 1.6rem;
+}
