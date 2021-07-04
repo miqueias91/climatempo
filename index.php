@@ -1,3 +1,17 @@
+<?php
+  include_once "config/config.php";
+  include_once "$CLASS_PATH/class.Curl.php";
+  $con = new Curl();
+
+try {
+  $client = new MongoDB\Driver\Manager('mongodb://127.0.0.1');
+    echo "<pre>";
+    print_r($client);die;
+} catch (Exception $error) {
+    echo $error->getMessage(); die(1);
+}
+
+?>
 <!doctype html>
 <html lang="pt-BR">
   <head>
