@@ -86,3 +86,11 @@ h6 {
 .card_temperatura, .card_cordicoes {
 	font-size: 1.6rem;
 }
+
+.esconder_temperature, .esconder_chuva {
+    display: none;
+}
+
+.visivel_temperature, .visivel_chuva {
+    display: inline-block;
+}
