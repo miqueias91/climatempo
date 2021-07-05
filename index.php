@@ -1,4 +1,5 @@
 <?php
+  phpinfo();
   include_once "config/config.php";
   include_once "$CLASS_PATH/class.Curl.php";
   include_once "$CLASS_PATH/class.Climatempo.php";
@@ -12,28 +13,9 @@
   if ($_GET['id']) {
     $previsao = $ct->buscaPrevisao('weather.json',$_GET['id']);
   }
-  
 
-/*
-  require 'vendor/autoload.php';
-  $client = Elasticsearch\ClientBuilder::create()->build();
-  if ($client) {
-    echo 'conectado';
-  }
-
-$handler = new MockHandler([
-  'status' => 200,
-  'transfer_stats' => [
-     'total_time' => 100
-  ],
-  'body' => fopen('base/locales.json'),
-  'effective_url' => 'localhost'
-]);
-$builder = ClientBuilder::create();
-$builder->setHosts(['somehost']);
-$builder->setHandler($handler);
-$client = $builder->build();
-*/
+  $connection = new MongoDB\Driver\Manager('mongodb://localhost:27017');
+?>
 
 ?>
 <!doctype html>
