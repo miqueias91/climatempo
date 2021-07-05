@@ -12,10 +12,7 @@
   $PATH_FUNCTION  = $FUNCTION_PATH ;
   $IMAGE_PATH    = $base_http."/img" ;
 
-
-  /*****************************************
-   *       Conexao com o db principal      *
-   *****************************************/   
+  //Conexao com o db principal
   //include_once( "$base/class/class.Conexao.php" );
   //$conexao = Conexao::getInstance();
 
@@ -28,3 +25,7 @@
     }
     $extraidos = 1;
   }
+
+  //Configuracao do Firebase
+  $url_firebase = 'https://climatempo-1ee3b-default-rtdb.firebaseio.com'; 
+  $token_firebase = 'YO9UxeO06wm3slQaOsE6HW16a7M54uYFun8Ruhss';

@@ -1,15 +1,24 @@
 <?php
   include_once "config/config.php";
   include_once "$CLASS_PATH/class.Curl.php";
-  $con = new Curl();
+  include_once "$CLASS_PATH/class.Climatempo.php";
 
-try {
-  $client = new MongoDB\Driver\Manager('mongodb://127.0.0.1');
-    echo "<pre>";
-    print_r($client);die;
-} catch (Exception $error) {
-    echo $error->getMessage(); die(1);
-}
+  $con = new Curl();
+  $ct = new Climatempo($url_firebase, $token_firebase);
+
+  $search = isset($search) ? $search : 'São%20Paulo';
+
+  if (isset($search)) {
+    //BUSCA A LOCALIDADE
+    $localidade = $ct->buscaLocalizacao('locales.json',$search);
+    print_r($localidade);
+    $localidade = empty($localidade) ? NULL : $localidade[0];
+
+    if (isset($localidade)) {
+      $previsao = $ct->buscaPrevisao('weather.json',$localidade['id']);
+      $previsao = $previsao[0];
+    }
+  }
 
 ?>
 <!doctype html>
@@ -22,16 +31,11 @@ try {
     <meta name="generator" content="Clima 0.84.0">
     <title>CLIMATEMPO</title>
 
-
-    
-
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/fontawesome-free-5.15.3/css/all.css" rel="stylesheet"> <!--load all styles -->
+    <link href="css/fontawesome-free-5.15.3/css/all.css" rel="stylesheet"> 
+    <!--load all styles -->
     <link href="css/style.css" rel="stylesheet">
-
-
-    
   </head>
   <body>
     
@@ -59,42 +63,46 @@ try {
 
   <div class="album py-5 bg-light">
     <div class="container">
-      <h1 class="cidade_previsao">Previsão para Osasco - SP</h1>
-      <br>
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        
-        <div class="col-md-12">
-          <div class="card shadow-sm">
-            <div class="card-header">
-              <h5 class="card-title">01/02/2017</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Sol com muitas nuvens durante o dia. Períodos de nublado, com chuva a qualquer hora.</h6>
-              
-            </div>
-            <div class="card-body">
-              <div class="d-flex justify-content-between  card_temperatura">
-                <div class="col-md-6 max">
-                  <img src="img/upload.png">
-                  <span>20°C</span>                  
+      <?php if (isset($previsao)) {
+      ?>
+        <h1 class="cidade_previsao">Previsão para <?php echo $localidade['name']?> - <?php echo $localidade['state']?></h1>
+        <?php foreach ($previsao['weather'] as $key => $value) { ?>
+          <br>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="col-md-12">
+              <div class="card shadow-sm">
+                <div class="card-header">
+                  <h5 class="card-title"><?php echo $value['date']?></h5>
+                  <h6 class="card-subtitle mb-2 text-muted"><?php echo $value['text']?></h6>
+                  
                 </div>
-                <div class="col-md-6 min">
-                  <img src="img/download.png">
-                  <span>10°C</span>                  
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center card_cordicoes">
-                <div class="col-md-6">
-                  <img src="img/raindrop-close-up.png">
-                  <span>7mm</span>                  
-                </div>
-                <div class="col-md-6">
-                  <img src="img/protection-symbol-of-opened-umbrella-silhouette-under-raindrops.png">
-                  <span>70%</span>                  
+                <div class="card-body">
+                  <div class="d-flex justify-content-between  card_temperatura">
+                    <div class="col-md-6 max">
+                      <img src="img/upload.png">
+                      <span><?php echo $value['temperature']['max']?>°C</span>                  
+                    </div>
+                    <div class="col-md-6 min">
+                      <img src="img/download.png">
+                      <span><?php echo $value['temperature']['min']?>°C</span>                  
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center card_cordicoes">
+                    <div class="col-md-6">
+                      <img src="img/raindrop-close-up.png">
+                      <span><?php echo $value['rain']['precipitation']?>mm</span>                  
+                    </div>
+                    <div class="col-md-6">
+                      <img src="img/protection-symbol-of-opened-umbrella-silhouette-under-raindrops.png">
+                      <span><?php echo $value['rain']['probability']?>%</span>                  
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        <?php } ?>
+      <?php } ?>
     </div>
   </div>
 
