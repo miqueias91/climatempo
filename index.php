@@ -7,10 +7,10 @@
   $ct = new Climatempo($url_firebase, $token_firebase);
 
 
-  $id = isset($id) ? $id : null;
+  $_GET['id'] = empty($_GET['id']) ? false : $_GET['id'];
 
-  if (isset($id)) {
-    $previsao = $ct->buscaPrevisao('weather.json',$id);
+  if ($_GET['id']) {
+    $previsao = $ct->buscaPrevisao('weather.json',$_GET['id']);
   }
   
 
@@ -160,7 +160,11 @@ $client = $builder->build();
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
+
       $( document ).ready(function() {
+        //ARMAZENO O ID DA URL
+        var id = '<?php echo $_GET[id]?>';
+
         //VERIFICO QUAL CONVERSAO ESTAVA MARCADO
         if ($('#celsius').prop("checked")) {
           $(".celsius").removeClass( "esconder_temperature" ).addClass( "visivel_temperature" );
@@ -169,6 +173,22 @@ $client = $builder->build();
         else{
           $(".celsius").removeClass( "visivel_temperature" ).addClass( "esconder_temperature" );
           $(".fahrenheit").removeClass( "esconder_temperature" ).addClass( "visivel_temperature" );
+        }
+
+        if ($('#mm').prop("checked")) {
+          $(".mm").removeClass( "esconder_chuva" ).addClass( "visivel_chuva" );
+          $(".inch").removeClass( "visivel_chuva" ).addClass( "esconder_chuva" );
+        }
+        else{
+          $(".mm").removeClass( "visivel_chuva" ).addClass( "esconder_chuva" );
+          $(".inch").removeClass( "esconder_chuva" ).addClass( "visivel_chuva" );
+        }
+
+        //CASO O USUARIO JA TENHA JEITO BUSCAS, PEGO A ULTIMA CIDADE QUE ELE BUSCOU
+        if (window.localStorage.getItem('id') && id == '') {
+          var id = window.localStorage.getItem('id');
+          //BUSCANDO
+          window.location.href = "./?id="+id;
         }
 
         //FACO A BUSCA DA LOCALIDADE NA MEDIDA QUE O USUARIO FOR DIGITANDO
@@ -185,8 +205,10 @@ $client = $builder->build();
         $('#search_button').click(function(){
           if($('#idlocalizacao').val() != ""){
             var id = $('#idlocalizacao').val();
-            $('#form').attr('action', "./?id="+id);
-            $('#form').submit();
+            //SALVANDO NO NAVEGADOR
+            window.localStorage.setItem('id', id);
+            //BUSCANDO
+            window.location.href = "./?id="+id;
           }
           else{
             alert('Não foi possível buscar a localidade, tente novamente.')
