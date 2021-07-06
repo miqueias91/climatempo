@@ -1,5 +1,4 @@
 <?php
-  phpinfo();
   include_once "config/config.php";
   include_once "$CLASS_PATH/class.Curl.php";
   include_once "$CLASS_PATH/class.Climatempo.php";
@@ -14,8 +13,7 @@
     $previsao = $ct->buscaPrevisao('weather.json',$_GET['id']);
   }
 
-  $connection = new MongoDB\Driver\Manager('mongodb://localhost:27017');
-?>
+  //$connection = new MongoDB\Driver\Manager('mongodb://localhost:27017');
 
 ?>
 <!doctype html>
